@@ -40,18 +40,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Set up Helm
         # Using https://github.com/Azure/setup-helm/releases/tag/v4.2.0
-        uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814
+        uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4
         with:
           version: ${{ env.HELM_VERSION }}
 
       # python is a requirement for the chart-testing action below (supports yamllint among other tests)
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
@@ -73,7 +73,7 @@ jobs:
 
       - name: Create kind cluster
         # https://github.com/helm/kind-action/releases/tag/v1.12.0
-        uses: helm/kind-action@a1b0e391336a6ee6713a0583f8c6240d70863de3
+        uses: helm/kind-action@92086f6be054225fa813e0a4b13787fc9088faab
         if: steps.list-changed.outputs.changed == 'true'
 
       # We need cert-manager already installed in the cluster because we assume the CRDs exist
